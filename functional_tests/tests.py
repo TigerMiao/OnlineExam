@@ -10,12 +10,10 @@ class HomeText(unittest.TestCase):
         self.browser.quit()
 
     def test_display_hello_world_in_index(self):
-        # 打开应用的首页，应显示：Hello, world. You're at mysite index.
+        # 打开应用的首页，title显示：Online Exam
         self.browser.get('http://127.0.0.1:8000')
 
-        body_text = self.browser.find_element_by_tag_name('body').text
-
-        self.assertIn("Hello, world. You're at mysite index.", body_text)
+        self.assertEqual('Online Exam', self.browser.title)
 
     if __name__ == '__main__':
         unittest.main(warnings='ignore')
