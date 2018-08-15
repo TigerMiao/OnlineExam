@@ -17,5 +17,5 @@ class HomePageTest(TestCase):
 
         self.assertTrue(html.startswith('<html>'))
         self.assertIn('<title>Online Exam</title>', html)
-        self.assertTrue(html.endswith('</html>'))
+        self.assertTrue(html.strip().endswith('</html>'))
 

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 
 def home_page(request):
-    return HttpResponse("<html><title>Online Exam</title></html>")
+    return render(request, 'onlineexam/home.html')
