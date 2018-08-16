@@ -5,5 +5,14 @@
 
     <body>
         <p id='id_question_text'>1. {{ question.text }}</p>
+
+        <form>
+            {% for answer in question.answer_set.all %}
+            <input type='radio' name='answer' value='{{ answer.id }}'> {{ answer.id }}
+                <textarea rows='6' cols='30'>
+                    {{ answer.text }}
+                </textarea>
+            {% endfor %}
+        </form>
     </body>
 </html>

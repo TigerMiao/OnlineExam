@@ -31,42 +31,35 @@ class QuestionModelTest(TestCase):
         self.assertEqual(first_saved_question.text, 'The first question')
         self.assertEqual(second_saved_question.text, 'The second question')
 
-class QuestionViewTest(TestCase):
+class QuestionAndAnswerViewTest(TestCase):
     def test_display_first_question(self):
-        Question.objects.create(text='The first question')
-        Question.objects.create(text='The second question')
+        first_question = Question.objects.create(text='The first question')
+        second_question = Question.objects.create(text='The second question')
+
+        answerA = Answer.objects.create(text='The Answer A', question=first_question)
+        answerB = Answer.objects.create(text='The Answer B', question=first_question)
+        answerC = Answer.objects.create(text='The Answer C', question=first_question)
+        answerD = Answer.objects.create(text='The Answer D', question=first_question)
 
         response = self.client.get('/')
 
         self.assertContains(response, '1. The first question')
         self.assertNotContains(response, '2. The second question')
 
+        self.assertContains(response, 'The Answer A')
+        self.assertContains(response, 'The Answer B')
+        self.assertContains(response, 'The Answer C')
+        self.assertContains(response, 'The Answer D')
+
 class AnswerModelTest(TestCase):
 
     def test_save_and_retrieving_answer(self):
-        question = Question()
-        question.text = "The first question"
-        question.save()
+        question = Question.objects.create(text='The first question')
 
-        answerA = Answer()
-        answerA.text = "The Answer A"
-        answerA.question = question
-        answerA.save()
-
-        answerB = Answer()
-        answerB.text = "The Answer B"
-        answerB.question = question
-        answerB.save()
-
-        answerC = Answer()
-        answerC.text = "The Answer C"
-        answerC.question = question
-        answerC.save()
-
-        answerD = Answer()
-        answerD.text = "The Answer D"
-        answerD.question = question
-        answerD.save()
+        answerA = Answer.objects.create(text='The Answer A', question=question)
+        answerB = Answer.objects.create(text='The Answer B', question=question)
+        answerC = Answer.objects.create(text='The Answer C', question=question)
+        answerD = Answer.objects.create(text='The Answer D', question=question)
 
         saved_question = Question.objects.first()
         self.assertEqual(saved_question, question)
