@@ -30,3 +30,13 @@ class QuestionModelTest(TestCase):
         second_saved_question = saved_questions[1]
         self.assertEqual(first_saved_question.text, 'The first question')
         self.assertEqual(second_saved_question.text, 'The second question')
+
+class QuestionViewTest(TestCase):
+    def test_display_first_question(self):
+        Question.objects.create(text='The first question')
+        Question.objects.create(text='The second question')
+
+        response = self.client.get('/')
+
+        self.assertIn('1. The first question', response.content.decode())
+        self.assertNotIn('2. The second question', response.content.decode())
