@@ -4,15 +4,25 @@
     </head>
 
     <body>
-        <p id='id_question_text'>1. {{ question.text }}</p>
+        <p id='id_question_text'>{{ question.id }}. {{ question.text }}</p>
 
-        <form>
+        <form method='POST'>
+            <input type='hidden' name='question_id' value='{{ question.id }}'>
+
+            {% csrf_token %}
+
             {% for answer in question.answer_set.all %}
             <input type='radio' name='answer' value='{{ answer.id }}'> {{ answer.id }}
                 <textarea rows='6' cols='30'>
                     {{ answer.text }}
                 </textarea>
             {% endfor %}
+
+            <input type='hidden' id='id_next_or_last' name='next_or_last' value='next'>
+            <input type='submit' id='id_next' value='Next'
+                onclick='document.getElementById("id_next_or_last").value="next"'>
+            <input type='submit' id='id_last' value='Last' 
+                onclick='document.getElementById("id_next_or_last").value="last"'>
         </form>
     </body>
 </html>

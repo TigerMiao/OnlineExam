@@ -12,6 +12,27 @@ class HomePageTest(TestCase):
 
         self.assertTemplateUsed(response, 'onlineexam/home.html')
 
+    def test_display_next_question(self):
+        first_question = Question.objects.create(text='The first question')
+        second_question = Question.objects.create(text='The second question')
+        response = self.client.post('/', data={'question_id': first_question.id, 'next_or_last':
+                                               'next'})
+
+#        print('first_question.id: %d' % first_question.id)
+#        print('second_question.id: %d' % second_question.id)
+#        print(response.content.decode())
+
+        self.assertContains(response, 'The second question')
+
+    def test_display_last_question(self):
+        first_question = Question.objects.create(text='The first question')
+        second_question = Question.objects.create(text='The second question')
+
+        response = self.client.post('/', data={'question_id': second_question.id, 'next_or_last':
+                                               'last'})
+
+        self.assertContains(response, 'The first question')
+
 class QuestionModelTest(TestCase):
 
     def test_save_and_retrieving_questions(self):
